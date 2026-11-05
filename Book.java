@@ -13,4 +13,28 @@ public class Book {
         this.title = title;
         this.available = available;
     }
+    
+    public String getISBN(){
+        return isbn;
+    }
+    
+    public void setISBN(String isbn){
+        this.isbn = isbn;
+    }
+    
+    public String getTitle(){
+        return title;
+    }
+    
+    public void setTitle(String title){
+        this.title = title;
+    }
+    
+    public boolean getAvailable(){
+        return available;
+    }
+    
+    public void setAvailable(boolean available){
+        this.available = available;
+    }
 }
