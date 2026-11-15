@@ -52,8 +52,8 @@ public class LibraryAdminSystem extends Application{
         VBox headerPanel = new VBox(3);
         headerPanel.setPadding(new Insets(10));
         headerPanel.getChildren().addAll(
-            new Label("Name: LAM King Shan  Student ID: 24131593D"),
-            new Label("Name: LAU Ching Hoi  Student ID: 24133078D"),
+            new Label("Name: LAM King Shan\t\t Student ID: 24131593D"),
+            new Label("Name: LAU Ching Hoi\t\t  Student ID: 24133078D"),
             new Label("Program Started: " + startTime)
         );
         
@@ -82,7 +82,6 @@ public class LibraryAdminSystem extends Application{
         bookTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);//Remove the empty space
        
         // Listen for clicks on the header
-        
         /*
         isbnColumn.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
             // Sort the main ArrayList
@@ -171,6 +170,21 @@ public class LibraryAdminSystem extends Application{
 
         bottomPanel.getChildren().addAll(firstButtonRow, secondButtonRow, messageLabel);
         
+        // Button Event Handler
+        /*
+        btnAdd.setOnAction(e -> add());
+        btnEdit.setOnAction(e -> edit());
+        btnSave.setOnAction(e -> save());
+        btnDelete.setOnAction(e -> delete());
+        btnSearch.setOnAction(e -> search());
+        btnDisplayAll.setOnAction(e -> displayAll());
+        btnLoadTestData.setOnAction(e -> loadTestData());
+        btnBorrow.setOnAction(e -> borrow());
+        btnReturn.setOnAction(e -> return());
+        btnClear.setOnAction(e -> clear());
+        btnExit.setOnAction(e -> primaryStage.close());
+        */
+        
         // Testing top pane
         BorderPane mainApp = new BorderPane();
         mainApp.setTop(headerPanel);
@@ -181,5 +195,21 @@ public class LibraryAdminSystem extends Application{
         Scene scene = new Scene(mainApp, 700, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    
+    
+    
+    private void showError(String message) { 
+        Alert alert = new Alert(Alert.AlertType.ERROR); 
+        alert.setTitle("Library Admin System"); 
+        alert.setHeaderText("Error"); 
+        alert.setContentText(message); 
+        alert.showAndWait(); 
+        //messageLabel.setText(message); 
+    }     
+    
+   public static void main(String[] args) {
+
+        launch(args);
     }
 }
