@@ -33,6 +33,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class LibraryAdminSystem extends Application{
+    
+    private TextField isbnField;
+    private TextField titleField;
+    private ObservableList<Book> tableData = FXCollections.observableArrayList();
+    
+    private TableView<Book> bookTable;
+
     public void start(Stage primaryStage){
         primaryStage.setTitle("Library Admin System");
         
@@ -50,24 +57,83 @@ public class LibraryAdminSystem extends Application{
             new Label("Program Started: " + startTime)
         );
         
+        //Centre Panel:  book records displayed in a table,  ISBN and Title text fields
         
         // Book Grid
+        bookTable = new TableView<Book>();
+        
         // Create the column
         TableColumn<Book, String> isbnColumn = new TableColumn<>("ISBN");
         // Tell the column to look for getIsbn() in the Book class
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
         isbnColumn.setPrefWidth(150);
         
+        TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        titleColumn.setPrefWidth(150);
         
-        // Add column to table and set data
+        TableColumn<Book, String> availabilityColumn = new TableColumn<>("Avaiability");
+        availabilityColumn.setCellValueFactory(new PropertyValueFactory<>("avaiability"));
+        availabilityColumn.setPrefWidth(150);
+        
+        bookTable.getColumns().addAll(isbnColumn, titleColumn, availabilityColumn);
+        bookTable.setItems(tableData);
+         
+        bookTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);//Remove the empty space
+       
+        // Listen for clicks on the header
+        
         /*
-        bookTable.getColumns().add(isbnColumn);
-        bookTable.setItems(tableData); // tableData is your ObservableList
-        
+        isbnColumn.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, e -> {
+            // Sort the main ArrayList
+            books.sort(Comparator.comparing(Book::getIsbn));
+            
+            // If it's currently descending, reverse the list!
+            if (!sortByIsbnAscending) {
+                java.util.Collections.reverse(books);
+            }
+            
+            // Flip the boolean for next time
+            sortByIsbnAscending = !sortByIsbnAscending;
+            
+            // Refresh the table with the newly sorted list
+            displayAllBooks(); 
+        });
         */
        
-       
-           
+        // Below the table: ISBN and Title fields
+        GridPane formGrid = new GridPane();
+
+        formGrid.setAlignment(Pos.CENTER);
+
+        formGrid.setPadding(new Insets(15));
+
+        formGrid.setHgap(8);
+
+        formGrid.setVgap(10);
+
+        // Create text fields
+        isbnField = new TextField();
+        titleField = new TextField();
+        isbnField.setPrefWidth(260);
+        titleField.setPrefWidth(260);
+        // Create Clear button
+        Button btnClear = new Button("Clear");
+        
+        // Add labels and text fields
+        formGrid.add(new Label("ISBN:"), 0, 0);
+        formGrid.add(isbnField, 1, 0);
+        formGrid.add(new Label("Title:"), 0, 1);
+        formGrid.add(titleField, 1, 1);
+        formGrid.add(btnClear, 2, 1);
+        
+        
+        VBox centrePanel = new VBox(10);
+        centrePanel.setPadding(new Insets(10));
+        centrePanel.getChildren().addAll(bookTable,formGrid);
+        
+        
+        //bottom panel
         // button
         Button btnAdd = new Button("Add");
         Button btnEdit = new Button("Edit");
@@ -79,11 +145,38 @@ public class LibraryAdminSystem extends Application{
         Button btnBorrow = new Button("Borrow");
         Button btnReturn = new Button("Return");
         Button btnExit = new Button("Exit");
-        Button btnClear = new Button("Clear");
+        
+        FlowPane firstButtonRow = new FlowPane(10, 10);
+
+        firstButtonRow.setAlignment(Pos.CENTER);
+
+        firstButtonRow.getChildren().addAll(btnAdd, btnEdit, btnSave,btnDelete,btnSearch);
+
+        // Second button row
+        FlowPane secondButtonRow = new FlowPane(10, 10);
+
+        secondButtonRow.setAlignment(Pos.CENTER);
+
+        secondButtonRow.getChildren().addAll(btnDisplayAll, btnLoadTestData, btnBorrow, btnReturn, btnExit);
+
+        // System message
+        Label messageLabel = new Label("Displaying all book records in their current order.");
+
+        // Bottom Panel
+        VBox bottomPanel = new VBox(10);
+
+        bottomPanel.setAlignment(Pos.CENTER);
+
+        bottomPanel.setPadding(new Insets(15));
+
+        bottomPanel.getChildren().addAll(firstButtonRow, secondButtonRow, messageLabel);
         
         // Testing top pane
         BorderPane mainApp = new BorderPane();
         mainApp.setTop(headerPanel);
+        mainApp.setCenter(centrePanel);
+        mainApp.setBottom(bottomPanel);
+
         
         Scene scene = new Scene(mainApp, 700, 600);
         primaryStage.setScene(scene);
