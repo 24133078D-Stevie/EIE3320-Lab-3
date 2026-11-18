@@ -8,17 +8,6 @@ public class Book {
     private String title;
     private boolean available;
     
-    public Book() {
-        this.isbn = "";
-        this.title = "";
-        this.available = true;
-    }
-    
-    public Book(String isbn, String title) {
-        this.isbn = isbn;
-        this.title = title;
-        this.available = true;
-    }
     
     public Book(String isbn, String title, boolean available) {
         this.isbn = isbn;
@@ -48,5 +37,14 @@ public class Book {
     
     public void setAvailable(boolean available){
         this.available = available;
+    }
+    
+    public String getAvailability(){
+        if (available) {
+            return "Available";
+        }
+        else {
+            return "Not Available";
+        }
     }
 }
