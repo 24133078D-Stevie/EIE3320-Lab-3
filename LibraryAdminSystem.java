@@ -201,13 +201,13 @@ public class LibraryAdminSystem extends Application{
         btnLoadTestData.setOnAction(e -> loadTestData());
         btnSearch.setOnAction(e -> search());
         btnDelete.setOnAction(e -> delete());
+        btnBorrow.setOnAction(e -> borrow());
+        btnReturn.setOnAction(e -> returnBk());
         
         /*
         btnEdit.setOnAction(e -> edit());
         btnSave.setOnAction(e -> save());
         btnDisplayAll.setOnAction(e -> displayAll());
-        btnBorrow.setOnAction(e -> borrow());
-        btnReturn.setOnAction(e -> return());
         btnExit.setOnAction(e -> primaryStage.close());
          */
 
@@ -264,6 +264,7 @@ public class LibraryAdminSystem extends Application{
     
     }   
     
+    //Clear not done
     private void clear(){
         isbnField.clear();
         titleField.clear();
@@ -273,8 +274,11 @@ public class LibraryAdminSystem extends Application{
     
         // Reset selected book
         selectedBook = null;
+        
+        messageLabel.setText("Text fields cleared.");
     }
     
+    // handle deplicate?
     private void loadTestData(){
         books.add(new Book("0131450913", "HTML How to Program", true));
         books.add(new Book("0132222205", "Java How to Program", true));
@@ -345,6 +349,41 @@ public class LibraryAdminSystem extends Application{
         
         selectedBook = null;
         
+    }
+    
+    private void borrow(){
+        if(selectedBook == null){
+            showError("Please select a book first.");
+            return;
+        }
+        
+        if(!selectedBook.getAvailable()){
+            showError("The selected book is not available.");
+            return;
+        }
+        
+        selectedBook.setAvailable(false);
+        
+        bookTable.refresh();
+        messageLabel.setText("The book is borrowed and books.txt has been updated.");
+    }
+    
+    private void returnBk(){
+        if(selectedBook == null){
+            showError("Please select a book first.");
+            return;
+        }
+        
+        if (selectedBook.getAvailable()) {
+            showError("The selected book is already available.");
+            return;
+        }
+        
+        selectedBook.setAvailable(true);
+        
+        bookTable.refresh();
+        
+        messageLabel.setText("The book is returned and books.txt has been updated.");
     }
     
     private void showError(String message) { 
