@@ -199,12 +199,12 @@ public class LibraryAdminSystem extends Application{
         btnClear.setOnAction(e -> clear());
         btnAdd.setOnAction(e -> add());
         btnLoadTestData.setOnAction(e -> loadTestData());
+        btnSearch.setOnAction(e -> search());
+        btnDelete.setOnAction(e -> delete());
         
         /*
         btnEdit.setOnAction(e -> edit());
         btnSave.setOnAction(e -> save());
-        btnDelete.setOnAction(e -> delete());
-        btnSearch.setOnAction(e -> search());
         btnDisplayAll.setOnAction(e -> displayAll());
         btnBorrow.setOnAction(e -> borrow());
         btnReturn.setOnAction(e -> return());
@@ -278,10 +278,73 @@ public class LibraryAdminSystem extends Application{
     private void loadTestData(){
         books.add(new Book("0131450913", "HTML How to Program", true));
         books.add(new Book("0132222205", "Java How to Program", true));
-        books.add(new Book("0131857576", "C++ How to Program", false));
+        books.add(new Book("0131857576", "C++ How to Program", true));
 
         // Display the books in TableView
         tableData.setAll(books); 
+        
+    }
+    
+    private void search(){
+        String isbn = isbnField.getText().trim().toLowerCase();
+        String title = titleField.getText().trim().toLowerCase();
+        
+        if(isbn.isEmpty() && title.isEmpty()){
+            showError("Please enter a partial ISBN and/or partial Title for searching.");
+        }
+        
+        ArrayList<Book> searchBooks = new ArrayList<>();
+        
+        for (Book book : books){
+            boolean match = (isbn.isEmpty() &&
+            book.getISBN().toLowerCase().contains(isbn)) || (!title.isEmpty() &&
+            book.getTitle().toLowerCase().contains(title));
+            
+            if(match){
+                searchBooks.add(book);
+            }
+             
+        }
+        tableData.setAll(searchBooks);
+        
+
+        messageLabel.setText(searchBooks.size() + " book record(s) found. Search does not change or delete book records");
+    }
+
+    private void delete(){
+        String isbn = isbnField.getText().trim();
+        
+        if (selectedBook == null && isbn.isEmpty()) {
+            showError("No book record is available for deletion.");
+            return;
+        }
+        
+        if (isbn.isEmpty()) {
+            isbn = selectedBook.getISBN();
+        }
+        
+        Book bookDelete = null;
+        
+        for(Book book: books){
+            if(book.getISBN().equalsIgnoreCase(isbn)){
+                bookDelete = book;
+                break;
+            }
+        }
+        
+        if (bookDelete == null) {
+            showError("Book with ISBN " + isbn + " cannot be found.");
+            return;
+        }
+            books.remove(bookDelete);
+        tableData.setAll(books);
+        
+        isbnField.clear();
+        titleField.clear();
+        bookTable.getSelectionModel().clearSelection();
+        
+        selectedBook = null;
+        
     }
     
     private void showError(String message) { 
