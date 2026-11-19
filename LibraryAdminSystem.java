@@ -49,7 +49,7 @@ public class LibraryAdminSystem extends Application {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String startTime = currentDateTime.format(formatter);
 
-        // top pane - Name: and Program Stary
+        // TOP PANEL: Names and Program Start Time
         VBox headerPanel = new VBox(3);
         headerPanel.setPadding(new Insets(10));
         headerPanel.getChildren().addAll(
@@ -58,7 +58,7 @@ public class LibraryAdminSystem extends Application {
             new Label("Program Started: " + startTime)
         );
 
-        //Centre Panel:  book records displayed in a table,  ISBN and Title text fields
+        // CENTER PANEL: Book records displayed in a table, ISBN and Title text fields
 
         // Book Grid
         bookTable = new TableView<Book>();
@@ -107,11 +107,10 @@ public class LibraryAdminSystem extends Application {
         formGrid.setPadding(new Insets(15));
         formGrid.setHgap(8);
         formGrid.setVgap(10);
-
         // Create text fields
         isbnField = new TextField();
-        titleField = new TextField();
         isbnField.setPrefWidth(260);
+        titleField = new TextField();
         titleField.setPrefWidth(260);
 
         bookTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
