@@ -7,44 +7,41 @@ public class Book {
     private String isbn;
     private String title;
     private boolean available;
-    
-    
+        
     public Book(String isbn, String title, boolean available) {
         this.isbn = isbn;
         this.title = title;
         this.available = available;
     }
     
-    public String getISBN(){
+    public String getISBN() {
         return isbn;
     }
     
-    public void setISBN(String isbn){
+    public void setISBN(String isbn) {
         this.isbn = isbn;
     }
     
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
     
-    public void setTitle(String title){
+    public void setTitle(String title) {
         this.title = title;
     }
     
-    public boolean getAvailable(){
+    public boolean getAvailable() {
         return available;
     }
     
-    public void setAvailable(boolean available){
+    public void setAvailable(boolean available) {
         this.available = available;
     }
     
-    public String getAvailability(){
-        if (available) {
+    public String getAvailability() {
+        if (available)
             return "Available";
-        }
-        else {
+        else
             return "Not Available";
-        }
     }
 }
