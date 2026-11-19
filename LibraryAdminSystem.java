@@ -85,15 +85,7 @@ public class LibraryAdminSystem extends Application{
 
         bookTable.getColumns().addAll(isbnColumn, titleColumn, availabilityColumn);
         bookTable.setItems(tableData);
-    
-        // Load Test Data 
-        
-        //books.add(new Book("0131450913", "HTML How to Program", true));
-        //books.add(new Book("0132222205", "Java How to Program", true));
-        //books.add(new Book("0131857576", "C++ How to Program", false));
 
-        // Display the books in TableView
-        //tableData.setAll(books); 
         bookTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);//Remove the empty space
 
         // Listen for clicks on the header
