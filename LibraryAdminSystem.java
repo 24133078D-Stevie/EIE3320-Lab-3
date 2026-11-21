@@ -284,6 +284,7 @@ public class LibraryAdminSystem extends Application {
         }
 
         String inputIsbn = isbnField.getText().trim();
+        String inputTitle = titleField.getText().trim();
 
         // Edit target can be selected row or typed ISBN
         if (selectedBook != null) {
