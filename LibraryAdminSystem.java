@@ -66,7 +66,7 @@ public class LibraryAdminSystem extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Library Admin System");
 
-        // 1. TOP PANEL: Names and Program Start Time
+        // Top: Names and Program Start Time
         LocalDateTime currentDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String startTime = currentDateTime.format(formatter);
@@ -79,7 +79,7 @@ public class LibraryAdminSystem extends Application {
             new Label("Program Started: " + startTime)
         );
 
-        // 2. CENTRE PANEL: Book TableView
+        // Center: Book TableView
         bookTable = new TableView<>();
         bookTable.setPlaceholder(new Label("No book records"));
 
@@ -94,13 +94,13 @@ public class LibraryAdminSystem extends Application {
         TableColumn<Book, String> availabilityColumn = new TableColumn<>("Availability");
         availabilityColumn.setCellValueFactory(new PropertyValueFactory<>("availability"));
         availabilityColumn.setPrefWidth(130);
-        availabilityColumn.setSortable(false); // Only ISBN and Title sortable per spec
+        availabilityColumn.setSortable(false); // Only ISBN and Title are sortable
 
         bookTable.getColumns().addAll(isbnColumn, titleColumn, availabilityColumn);
         bookTable.setItems(tableData);
         bookTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        // Custom Sort Policy to sort the underlying ArrayList<Book>
+        // Custom sort to sort ArrayList<Book>
         bookTable.setSortPolicy(tv -> {
             ObservableList<TableColumn<Book, ?>> sortOrder = tv.getSortOrder();
             if (!sortOrder.isEmpty()) {
@@ -128,7 +128,7 @@ public class LibraryAdminSystem extends Application {
             return true;
         });
 
-        // Row Selection Listener
+        // Row selection listener
         bookTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (!isEditMode) {
                 selectedBook = newVal;
@@ -140,7 +140,7 @@ public class LibraryAdminSystem extends Application {
             }
         });
 
-        // Form Fields (Below the table)
+        // Form fields
         GridPane formGrid = new GridPane();
         formGrid.setAlignment(Pos.CENTER);
         formGrid.setPadding(new Insets(10));
@@ -163,7 +163,7 @@ public class LibraryAdminSystem extends Application {
         centrePanel.setPadding(new Insets(10));
         centrePanel.getChildren().addAll(bookTable, formGrid);
 
-        // 3. BOTTOM PANEL: Buttons & System Message
+        // Bottom: Buttons and system message
         btnAdd = new Button("Add");
         btnEdit = new Button("Edit");
         btnSave = new Button("Save");
@@ -191,7 +191,7 @@ public class LibraryAdminSystem extends Application {
         bottomPanel.setPadding(new Insets(15));
         bottomPanel.getChildren().addAll(firstButtonRow, secondButtonRow, messageLabel);
 
-        // 4. Attach Event Handlers
+        // Attach event handlers
         btnAdd.setOnAction(e -> add());
         btnLoadTestData.setOnAction(e -> loadTestData());
         btnEdit.setOnAction(e -> edit());
@@ -204,12 +204,12 @@ public class LibraryAdminSystem extends Application {
         btnClear.setOnAction(e -> clear());
         btnExit.setOnAction(e -> primaryStage.close());
 
-        // 5. Load records from books.txt on startup
+        // Load books.txt on startup
         loadFromFile();
         displayAll();
         updateButtonStates();
 
-        // 6. Build Scene & Show
+        // Build scene and show
         BorderPane mainApp = new BorderPane();
         mainApp.setTop(headerPanel);
         mainApp.setCenter(centrePanel);
@@ -220,7 +220,7 @@ public class LibraryAdminSystem extends Application {
         primaryStage.show();
     }
 
-    // Action Methods
+    // Action methods
 
     private void add() {
         String isbn = isbnField.getText().trim();
@@ -305,7 +305,7 @@ public class LibraryAdminSystem extends Application {
 
         isEditMode = true;
         updateButtonStates();
-        messageLabel.setText("Edit mode: make changes and click Save.");
+        messageLabel.setText("Editing book. Change the information and click Save.");
     }
 
     private void save() {
@@ -322,7 +322,7 @@ public class LibraryAdminSystem extends Application {
             return;
         }
 
-        // If ISBN changed, check duplicate against other books
+        // If ISBN changed, check duplicate on other books
         if (!newIsbn.equalsIgnoreCase(editingBook.getISBN())) {
             Book duplicate = findBookByIsbn(newIsbn);
             if (duplicate != null) {
@@ -340,7 +340,7 @@ public class LibraryAdminSystem extends Application {
         isEditMode = false;
         editingBook = null;
         clearFieldsAndSelection();
-        messageLabel.setText("The book is updated and books.txt has been updated.");
+        messageLabel.setText("Book information saved and written to books.txt.");
     }
 
     private void delete() {
@@ -443,7 +443,7 @@ public class LibraryAdminSystem extends Application {
         messageLabel.setText("Text fields cleared.");
     }
 
-    // States and UI
+    // States and GUI
 
     private void updateButtonStates() {
         if (isEditMode) {
@@ -498,7 +498,7 @@ public class LibraryAdminSystem extends Application {
         return null;
     }
 
-    // File Storage Handlers
+    // File storage handlers
 
     private void loadFromFile() {
         File file = new File(FILE_NAME);
